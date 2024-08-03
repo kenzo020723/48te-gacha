@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>48手ガチャ</title>
+  <link rel="stylesheet" href="index.css" type="text/css">
+</head>
+<body>
+<h1>48手ガチャ</h1>
+<h2>やり方は画像をクリック</h2>
+<div>
+  <input type="number" id="numItems" value="1" min="1" max="54">
+  <button onclick="setNumItems()">表示数を決定</button>
+  <button onclick="selectRandom()">選出</button>
+</div>
+<div class="result" id="result">
+  <p></p>
+</div>
+
+<script>
+  //謎の48手紹介ページのやり方解説ページに飛ぶ
+  const items = [
+    { img: 'img/01.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_01.html#xkmsbxn27b' },
+    { img: 'img/02.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_02.html#tqibvxayf9' },
+    { img: 'img/03.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_03.html#5ugz12dbxc' },
+    { img: 'img/04.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_04.html#l41cc1wkau' },
+    { img: 'img/05.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_05.html#erxoyhssxe' },
+    { img: 'img/06.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_06.html#nh6qpcbfgh' },
+    { img: 'img/07.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_07.html#3320mitjbc' },
+    { img: 'img/08.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_08.html#j40il5ez3w' },
+    { img: 'img/09.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_09.html#p78ra2dr1e' },
+    { img: 'img/10.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_10.html#nh690adzly' },
+    { img: 'img/11.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_11.html#7brgnoc36d' },
+    { img: 'img/12.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_12.html#bbi4gnpt2q' },
+    { img: 'img/13.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_13.html#d3mcdtovhs' },
+    { img: 'img/14.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_14.html#vxtpnh9wyk' },
+    { img: 'img/15.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_15.html#ieiti13c99' },
+    { img: 'img/16.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_16.html#l6qf4hlh63' },
+    { img: 'img/17.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_17.html#7mjps2bbhs' },
+    { img: 'img/18.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_18.html#ia77u7tfg6' },
+    { img: 'img/19.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_19.html#wgxymfiekq' },
+    { img: 'img/20.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_20.html#zrsx0r3k1s' },
+    { img: 'img/21.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_21.html#8lyvrggihe' },
+    { img: 'img/22.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_22.html#i6woal6dau' },
+    { img: 'img/23.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_23.html#81sui4xzbu' },
+    { img: 'img/24.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_24.html#hrqivaq3nl' },
+    { img: 'img/25.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_25.html#rgekcri0w9' },
+    { img: 'img/26.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_26.html#fr96n9e0fc' },
+    { img: 'img/27.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_27.html#8ifyvo64t7' },
+    { img: 'img/28.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_28.html#hlb5tklgmg' },
+    { img: 'img/29.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_29.html#i49jjejwy6' },
+    { img: 'img/30.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_30.html#iz31cpgr3b' },
+    { img: 'img/31.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_31.html#dlz21gqj6b' },
+    { img: 'img/32.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_32.html#3hwimj0wiu' },
+    { img: 'img/33.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_34.html#8k9or9pwsm' },
+    { img: 'img/34.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_33.html#2nwvheodz8' },
+    { img: 'img/35.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_35.html#46i7p1aded' },
+    { img: 'img/36.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_36.html#cnatnmmicq' },
+    { img: 'img/37.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_37.html#ig1d87w8hp' },
+    { img: 'img/38.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_38.html#px3pnycwph' },
+    { img: 'img/39.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_39.html#ghkbgen7z4' },
+    { img: 'img/40.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_40.html#dbbuhf39ft' },
+    { img: 'img/41.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_41.html#188yg5lrb7' },
+    { img: 'img/42.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_42.html#5nwg0eykrq' },
+    { img: 'img/43.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_43.html#z208o5b9ot' },
+    { img: 'img/44.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_44.html#z6xmp44vfk' },
+    { img: 'img/45.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_45.html#mqm6dcvf64' },
+    { img: 'img/46.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_46.html#nuycbekzwd' },
+    { img: 'img/47.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_47.html#to0gscqw6q' },
+    { img: 'img/48.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_48.html#prljcqr4su' },
+    { img: 'img/49.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_49.html#rph52s87ra' },
+    { img: 'img/50.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_50.html#vm7p267tla' },
+    { img: 'img/51.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_51.html#xebiv1ee7n' },
+    { img: 'img/52.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_52.html#uz962mesft' },
+    { img: 'img/53.jpg', link: 'https://shc.lovecosmetic.jp/jiten_teku/48te_53.html#gdm24676vs' },
+  ];
+
+  let numItems = 1;
+
+  //表示数が多すぎるとcssがバグを起こしてボタンが見えなくなってしまう模様
+  function setNumItems() {
+    const inputField = document.getElementById('numItems');
+    numItems = parseInt(inputField.value, 10);
+    if (isNaN(numItems) || numItems < 1 || numItems > items.length) {
+      numItems = 1;
+      inputField.value = 1;
+      alert('選ばれる数は1から' + items.length + 'の間で設定してください。');
+    }
+  }
+
+  function selectRandom() {
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '';
+
+    const selectedItems = [];
+    while (selectedItems.length < numItems) {
+      const randomIndex = Math.floor(Math.random() * items.length);
+      const selectedItem = items[randomIndex];
+      if (!selectedItems.includes(selectedItem)) {
+        selectedItems.push(selectedItem);
+      }
+    }
+
+    selectedItems.forEach(item => {
+      const anchorElement = document.createElement('a');
+      anchorElement.href = item.link;
+      anchorElement.target = '_blank'; // リンクを新しいタブで開く
+      const imgElement = document.createElement('img');
+      imgElement.src = item.img;
+      anchorElement.appendChild(imgElement);
+      resultDiv.appendChild(anchorElement);
+    });
+  }
+  
+</script>
+
+</body>
+</html>
